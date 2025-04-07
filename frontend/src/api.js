@@ -62,9 +62,9 @@ export async function verifyUser(user) {
     try {
         const response = await axios.post("http://localhost:3000/users/verify", user);
         if (response.data.success) {
-            return response.data.user;
+            return response.data.token;
         } else {
-            throw new Error(response.data.message || 'Verification failed');
+           return;
         }
     } catch (error) {
         console.error('Error verifying user:', error);

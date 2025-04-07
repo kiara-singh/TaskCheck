@@ -2,6 +2,9 @@ const express=require("express");
 const database=require("./connect");
 const ObjectId=require("mongodb").ObjectId;
 const bcrypt=require("bcrypt");
+const jwt=require("jsonwebtoken");
+require("dotenv").config({path:"./config.env"});
+
 let userRoutes=express.Router();
 const SALTROUNDS=6;
 
@@ -33,7 +36,6 @@ userRoutes.route("/register").post(async(request,response) =>{
     let db=database.getDB();
 
     console.log("Received request to /users/register with body:", request.body);
-
     //check if user already exsits 
     try{
         const userEmail=await db.collection("users").findOne({email: request.body.email});
@@ -81,10 +83,12 @@ userRoutes.route("/verify").post(async(request,response) =>{
     try{
         const user=await db.collection("users").findOne({email: request.body.email});
         
+
         if(user){
             let validate= await bcrypt.compare(request.body.password,user.password);
             if (validate){
-                response.json({success:true,user});
+                const token=jwt.sign(user,process.env.SECRETKEY);
+                response.json({success:true,token});
             }else{
                 response.json({success:false, message:"Wrong Password"});
             }

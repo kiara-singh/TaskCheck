@@ -1,7 +1,14 @@
 import { verifyUser } from "../api"
 import {useState} from "react"
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+
 
 export function LogInUser(){
+
+    const navigate=useNavigate();
+
     const[user,setUser]=useState({
         email:"",
         password:""
@@ -17,7 +24,15 @@ export function LogInUser(){
         e.preventDefault();
 
         let response=await verifyUser(user);
-        console.log("user logged in", response);
+        if(response){
+            sessionStorage.setItem("User", response); 
+            //making authorisation field in all axios request
+            axios.defaults.headers.common["authorization"] = `Bearer ${response}`;
+            navigate("/home")
+        }else{
+           alert("Log in failed"); 
+        }
+
 
     }
 

@@ -1,7 +1,7 @@
 import { CreateUser } from "../components/CreateUser"
 import { LogInUser } from "../components/LogInUser"
 import { useState } from "react"
-import { useNavigate } from "react-router-dom";
+
 
 export function Login(){
 
