@@ -55,3 +55,20 @@ export async function updateUser(id,user){
     const response=await axios.put(`${URL}/users/${id}`,user);
     return response;
 }
+
+
+
+export async function verifyUser(user) {
+    try {
+        const response = await axios.post("http://localhost:3000/users/verify", user);
+        if (response.data.success) {
+            return response.data.user;
+        } else {
+            throw new Error(response.data.message || 'Verification failed');
+        }
+    } catch (error) {
+        console.error('Error verifying user:', error);
+        throw error;
+    }
+}
+
