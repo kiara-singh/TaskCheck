@@ -4,10 +4,19 @@ import {getTasks, getTask, createTask, updateTask, deleteTask} from './api'
 import { Home } from './pages/Home'
 import {Login} from './pages/Login'
 import { Register } from './pages/Register'
+import axios from 'axios'
 
 import './App.css'
 
 function App() {
+
+  useEffect(()=>{
+    let token=sessionStorage.getItem("User");
+    if(token){
+      axios.defaults.headers.common["authorization"] = `Bearer ${token}`;
+    }
+  },[])
+ 
 
   //Pages
   //register page

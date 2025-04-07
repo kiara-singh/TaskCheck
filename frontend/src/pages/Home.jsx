@@ -16,11 +16,12 @@ export function Home() {
     return (
         <div className="flex flex-col items-center w-full">
             <div className="w-1/3 mt-4">
-            {tasks.map((task) => {
-                return (
-                    task
-                )
-            })}
+            {tasks.map((task) => (
+                <div key={task._id} className="p-2 border rounded mb-2">
+                    <p>{task.name}</p>
+                </div>
+))}
+
             </div>
         </div>
     )
