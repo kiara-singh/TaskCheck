@@ -47,7 +47,7 @@ tasksRoutes.route("/tasks/:id").put(async(request,response) =>{
             user:request.body.user,
         }
     }
-    let data=await db.collection("tasks").updateOne({_id:new ObjectID(request.params.id)},mongoObject);
+    let data=await db.collection("tasks").updateOne({_id:new ObjectId(request.params.id)},mongoObject);
     response.json(data);
 })
 
