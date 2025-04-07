@@ -33,12 +33,14 @@ tasksRoutes.route("/tasks/:id").get(tokenVerify, async(request,response) =>{
 //Create one
 tasksRoutes.route("/tasks").post(tokenVerify, async(request,response) =>{
     let db=database.getDB();
+    console.log(request);
     let mongoObject={
         name:request.body.name,
-        user:request.body.user, 
+        user:request.body.user._id, 
     }
     let data=await db.collection("tasks").insertOne(mongoObject);
     response.json(data)
+    console.log(response);
 })
 
 //Update One 
@@ -50,6 +52,7 @@ tasksRoutes.route("/tasks/:id").put(tokenVerify, async(request,response) =>{
             user:request.body.user,
         }
     }
+    console.log(mongoObject);
     let data=await db.collection("tasks").updateOne({_id:new ObjectId(request.params.id)},mongoObject);
     response.json(data);
 })
@@ -73,7 +76,7 @@ function tokenVerify(request, response, next) {
         if (error) {
             return response.status(403).json({message: "Invalid Token"});
         }
-        request.user = user;
+        request.body.user = user;
         next();
     })
 }

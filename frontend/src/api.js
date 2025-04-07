@@ -20,12 +20,15 @@ export async function getTask(id){
         return;
     } 
 }
+export async function createTask(task) {
+    console.log("Sending task to backend:", task);
+    const token = sessionStorage.getItem("User");
 
-export async function createTask(task){
-    const response=await axios.post(`${URL}/tasks`,task);
+    const response = await axios.post(`${URL}/tasks`, task, {
+        headers: {Authorization: `Bearer ${token}`}
+    });
     return response;
 }
-
 export async function updateTask(id,task){
     const response=await axios.put(`${URL}/tasks/${id}`,task);
     return response;
