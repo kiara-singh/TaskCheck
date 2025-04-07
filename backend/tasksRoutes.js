@@ -76,6 +76,9 @@ function tokenVerify(request, response, next) {
         if (error) {
             return response.status(403).json({message: "Invalid Token"});
         }
+        if (!request.body) {
+            request.body = {};
+          }
         request.body.user = user;
         next();
     })

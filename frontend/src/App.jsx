@@ -25,7 +25,6 @@ function App() {
     <Router>
       <Routes>
         <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
-          <Route path="/home" element={<Home />} />
           <Route path="/home"element={ <ProtectedRoute> <Home/> </ProtectedRoute>}/>
           <Route path="/add"element={ <ProtectedRoute> <Add/> </ProtectedRoute>}/>
         </Route>
