@@ -4,7 +4,7 @@ function TaskForm({ onSubmit, initialData, buttonText }) {
   const [taskData, setTaskData] = useState(initialData);
 
   useEffect(() => {
-      setTaskData(initialData); // This will make sure `taskData` is updated with the full task, including _id
+      setTaskData(initialData); 
   }, [initialData]);
 
   const handleChange = (e) => {
@@ -14,8 +14,8 @@ function TaskForm({ onSubmit, initialData, buttonText }) {
 
   const handleSubmit = (e) => {
       e.preventDefault();
-      console.log("Form submitting:", taskData); // Log the task data to verify it's correct
-      onSubmit(taskData); // This sends the full task data, including _id, to the parent
+      console.log("Form submitting:", taskData); 
+      onSubmit(taskData); 
   };
 
   return (
@@ -23,7 +23,7 @@ function TaskForm({ onSubmit, initialData, buttonText }) {
           <input
               type="text"
               name="name"
-              value={taskData.name || ''}  // Bind to taskData.name
+              value={taskData.name || ''}  
               onChange={handleChange}
               placeholder="Task Name"
               required
