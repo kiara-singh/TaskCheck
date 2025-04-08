@@ -3,7 +3,6 @@ import {HashRouter as Router, Routes, Route} from "react-router-dom"
 import {getTasks, getTask, createTask, updateTask, deleteTask} from './api'
 import { Home } from './pages/Home'
 import {Login} from './pages/Login'
-import { Add } from './pages/Add'
 import axios from 'axios'
 import { ProtectedRoute } from './protectedRoute'
 import { Layout } from './components/Layout'
@@ -26,7 +25,6 @@ function App() {
       <Routes>
         <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
           <Route path="/home"element={ <ProtectedRoute> <Home/> </ProtectedRoute>}/>
-          <Route path="/add"element={ <ProtectedRoute> <Add/> </ProtectedRoute>}/>
         </Route>
         <Route path="/" element={<Login/>}/> 
       </Routes>
