@@ -12,7 +12,7 @@ TaskCheck is a simple and efficient task management application designed to help
 
 ### Steps to run the application
 
-1. **Clone the repository**:
+1. **Clone the repository**
 
 2. **Navigate to the project directory**
 
