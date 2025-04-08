@@ -32,33 +32,39 @@ userRoutes.route("/:id").get(async(request,response) =>{
 })
 
 //Create one
-userRoutes.route("/register").post(async(request,response) =>{
-    let db=database.getDB();
+userRoutes.route("/register").post(async (request, response) => {
+    let db = database.getDB();
 
     console.log("Received request to /users/register with body:", request.body);
-    //check if user already exsits 
-    try{
-        const userEmail=await db.collection("users").findOne({email: request.body.email});
-        if(userEmail){
-            return response.status(400).json({message: "Email in use"});
-        //create new user 
-        }else{
-            const hashed=await bcrypt.hash(request.body.password,SALTROUNDS);
-            let mongoObject={
-                username:request.body.username,
-                email:request.body.email,
-                password:hashed,
-                tasks:[], 
+    try {
+        // Check if user already exists
+        const userEmail = await db.collection("users").findOne({ email: request.body.email });
+        if (userEmail) {
+            return response.status(400).json({ message: "Email in use" });
+        } else {
+            // Hash the password
+            const hashed = await bcrypt.hash(request.body.password, SALTROUNDS);
+
+            // Prepare the user object to insert
+            let mongoObject = {
+                username: request.body.username,
+                email: request.body.email,
+                password: hashed,
+                tasks: []
             };
-            let data=await db.collection("users").insertOne(mongoObject);
+
+            // Insert new user into the database
+            let data = await db.collection("users").insertOne(mongoObject);
             console.log("Inserted Data: ", data);
-            response.json(data);
-        } 
-    }catch (err){
+
+            // Return the response with the inserted data
+            response.status(201).json({ id: data.insertedId, username: mongoObject.username });
+        }
+    } catch (err) {
         console.error(err);
-        response.status(500).json({message: "Internal server error"});
+        response.status(500).json({ message: "Internal server error" });
     }
-})
+});
 
 //Update One 
 userRoutes.route("/:id").put(async(request,response) =>{

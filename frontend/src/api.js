@@ -20,6 +20,7 @@ export async function getTask(id){
         return;
     } 
 }
+
 export async function createTask(task) {
     console.log("Sending task to backend:", task);
     const token = sessionStorage.getItem("User");
@@ -29,12 +30,16 @@ export async function createTask(task) {
     });
     return response;
 }
+
 export async function updateTask(id,task){
     const response=await axios.put(`${URL}/tasks/${id}`,task);
     return response;
 }
 
 export async function deleteTask(id){
+    if (!id) {
+        throw new Error("Task ID is missing");
+    }
     const response=await axios.delete(`${URL}/tasks/${id}`);
     return response;
 }

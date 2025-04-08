@@ -1,35 +1,37 @@
 import React, { useState, useEffect } from 'react';
 
-const TaskForm = ({ onSubmit, initialData = {}, buttonText = "Save Task" }) => {
-  const [taskName, setTaskName] = useState('');
+function TaskForm({ onSubmit, initialData, buttonText }) {
+  const [taskData, setTaskData] = useState(initialData);
 
   useEffect(() => {
-    if (initialData.name) {
-      setTaskName(initialData.name);
-    }
+      setTaskData(initialData); // This will make sure `taskData` is updated with the full task, including _id
   }, [initialData]);
 
+  const handleChange = (e) => {
+      const { name, value } = e.target;
+      setTaskData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent default form behavior
-    onSubmit({ ...initialData, name: taskName }); // Pass updated or new task to onSubmit
+      e.preventDefault();
+      console.log("Form submitting:", taskData); // Log the task data to verify it's correct
+      onSubmit(taskData); // This sends the full task data, including _id, to the parent
   };
 
   return (
-    <form onSubmit={handleSubmit} className="task-form">
-      <div className="form-group">
-        <label>Task Name</label>
-        <input
-          type="text"
-          className="form-control"
-          value={taskName}
-          onChange={(e) => setTaskName(e.target.value)} // Update task name as user types
-        />
-      </div>
-      <button type="submit" className="btn btn-primary mt-2">
-        {buttonText} {/* Button text based on mode */}
-      </button>
-    </form>
+      <form onSubmit={handleSubmit}>
+          <input
+              type="text"
+              name="name"
+              value={taskData.name || ''}  // Bind to taskData.name
+              onChange={handleChange}
+              placeholder="Task Name"
+              required
+          />
+          <button type="submit">{buttonText}</button>
+      </form>
   );
-};
+}
+
 
 export default TaskForm;
